@@ -4,7 +4,7 @@ $host = "dpg-d8dlcq3bc2fs73eodgsg-a.oregon-postgres.render.com";
 $port = "5432";
 $dbname = "grafit_z5oy";
 $user = "grafit_user";
-$password = "ТВОЙ_ПАРОЛЬ";
+$password = "mf1cDHRrv1XlGQfBobDmW29BbruZatXp";
 
 try {
     $pdo = new PDO(
