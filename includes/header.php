@@ -15,7 +15,8 @@ if (session_status() === PHP_SESSION_NONE) {
 <body>
 
 <header class="header">
-    <a href="/Grafit/index.php" class="logo">ГРАФИТ</a>
+
+    <a href="/" class="logo">♕ ГРАФИТ</a>
 
     <nav>
         <a href="index.php">Главная</a>
@@ -27,9 +28,9 @@ if (session_status() === PHP_SESSION_NONE) {
             </button>
 
             <form action="catalog.php" method="GET" id="searchForm" class="search-form">
-                <input 
-                    type="text" 
-                    name="search" 
+                <input
+                    type="text"
+                    name="search"
                     placeholder="Поиск товара..."
                 >
             </form>
@@ -65,6 +66,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <a href="register.php">Регистрация</a>
 
         <?php endif; ?>
+
     </nav>
 </header>
 
