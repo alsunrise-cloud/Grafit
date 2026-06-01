@@ -1679,21 +1679,22 @@ td img {
         font-size: 14px;
     }
 
-    .header-icon-link {
+        .header-icon-link {
         gap: 4px;
     }
 
     .header-icon-circle,
     .search-toggle {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
+        width: 48px !important;
+        height: 48px !important;
+        min-width: 48px !important;
+        min-height: 48px !important;
+        font-size: 20px !important;
     }
 
     .header-icon-text {
         font-size: 10px;
     }
-
     .search-form {
         right: 50%;
         transform: translateX(50%);
@@ -2214,5 +2215,26 @@ td img {
     .login-main-btn,
     .login-register-btn {
         width: 100%;
+    }
+}
+/* ===== FIX SEARCH ICON MOBILE SIZE ===== */
+
+@media (max-width: 768px) {
+    .search-toggle {
+        width: 48px !important;
+        height: 48px !important;
+        min-width: 48px !important;
+        min-height: 48px !important;
+        font-size: 20px !important;
+        padding: 0 !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .search-toggle {
+        width: 46px !important;
+        height: 46px !important;
+        min-width: 46px !important;
+        min-height: 46px !important;
     }
 }
