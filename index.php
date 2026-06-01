@@ -166,7 +166,7 @@ window.addEventListener('load', function() {
             preloader.remove();
         }, 800);
 
-    }, 1500);
+    }, 2500);
 
 });
 
