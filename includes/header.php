@@ -13,6 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+    
 
 <header class="header">
 

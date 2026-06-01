@@ -1,5 +1,20 @@
 <?php require_once "includes/auth.php"; ?>
 <?php include "includes/header.php"; ?>
+<div id="preloader">
+    <div class="preloader-content">
+
+        <div class="preloader-logo">
+            ♕ ГРАФИТ
+        </div>
+
+        <div class="preloader-line"></div>
+
+        <div class="preloader-text">
+            Премиальная канцелярия
+        </div>
+
+    </div>
+</div>
 
 <section class="hero">
     <div class="hero-content">
@@ -135,5 +150,25 @@
         </div>
     </div>
 </section>
+<script>
 
+window.addEventListener('load', function() {
+
+    const preloader = document.getElementById('preloader');
+
+    if (!preloader) return;
+
+    setTimeout(function() {
+
+        preloader.style.opacity = '0';
+
+        setTimeout(function() {
+            preloader.remove();
+        }, 800);
+
+    }, 1500);
+
+});
+
+</script>
 <?php include "includes/footer.php"; ?>

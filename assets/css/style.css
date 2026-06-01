@@ -1913,3 +1913,80 @@ td img {
         font-size: 27px;
     }
 }
+/* ===== PREMIUM PRELOADER ===== */
+
+#preloader {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #080808, #101010, #080808);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity .8s ease, visibility .8s ease;
+}
+
+#preloader.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.preloader-content {
+    text-align: center;
+}
+
+.preloader-logo {
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: 12px;
+    color: #d6aa3a;
+    animation: logoFloat 2.5s ease-in-out infinite;
+}
+
+.preloader-line {
+    width: 120px;
+    height: 2px;
+    margin: 18px auto;
+    background: linear-gradient(90deg, transparent, #d6aa3a, transparent);
+    animation: lineMove 2s ease-in-out infinite;
+}
+
+.preloader-text {
+    color: #c8c8c8;
+    letter-spacing: 3px;
+    font-size: 14px;
+}
+
+@keyframes logoFloat {
+    0% {
+        opacity: .7;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-4px);
+    }
+
+    100% {
+        opacity: .7;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lineMove {
+    0% {
+        width: 40px;
+        opacity: .3;
+    }
+
+    50% {
+        width: 120px;
+        opacity: 1;
+    }
+
+    100% {
+        width: 40px;
+        opacity: .3;
+    }
+}
