@@ -2066,3 +2066,153 @@ td img {
         font-size: 9px !important;
     }
 }
+.auth-switch {
+    margin-top: 22px;
+    color: #c9c9c9;
+    text-align: center;
+}
+
+.auth-switch a {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.auth-switch a:hover {
+    color: var(--gold2);
+}
+.btn-register {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+
+    padding: 14px;
+
+    text-align: center;
+    text-decoration: none;
+
+    border: 1px solid rgba(214,170,58,.4);
+    border-radius: 10px;
+
+    color: #d6aa3a;
+    background: transparent;
+
+    transition: .3s;
+}
+
+.btn-register:hover {
+    background: rgba(214,170,58,.1);
+    border-color: #d6aa3a;
+}
+/* ===== PREMIUM LOGIN PAGE ===== */
+
+/* ===== LOGIN PAGE ===== */
+
+.login-premium-page {
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.login-premium-box {
+    width: 100%;
+    max-width: 620px;
+
+    padding: 35px;
+
+    background: linear-gradient(145deg, #161616, #090909);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 18px;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,.35);
+}
+
+.login-premium-box h1 {
+    font-size: 24px;
+    margin-bottom: 25px;
+    color: #fff;
+}
+
+.login-input-wrap {
+    height: 56px;
+    margin-bottom: 18px;
+    padding: 0 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: #e9edf5;
+    border-radius: 8px;
+}
+
+.login-input-wrap span {
+    color: #777;
+    font-size: 18px;
+}
+
+.login-input-wrap input {
+    width: 100%;
+    border: none;
+    background: transparent;
+
+    font-size: 16px;
+    color: #111;
+}
+
+.login-input-wrap input:focus {
+    outline: none;
+}
+
+.login-buttons-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 10px;
+}
+
+.login-main-btn,
+.login-register-btn {
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    background: #d6aa3a;
+    color: #000;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.login-main-btn:hover,
+.login-register-btn:hover {
+    transform: translateY(-2px);
+    background: #e2b84d;
+}
+
+@media (max-width: 768px) {
+
+    .login-premium-box {
+        padding: 25px;
+    }
+
+    .login-buttons-row {
+        grid-template-columns: 1fr;
+    }
+
+    .login-main-btn,
+    .login-register-btn {
+        width: 100%;
+    }
+}

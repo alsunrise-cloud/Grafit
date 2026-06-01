@@ -64,7 +64,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <?php else: ?>
 
             <a href="login.php">Вход</a>
-            <a href="register.php">Регистрация</a>
+            
 
         <?php endif; ?>
 
