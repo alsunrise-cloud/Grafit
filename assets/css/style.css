@@ -1587,3 +1587,63 @@ td img {
 .products-grid .product-card .product-bottom {
     margin-top: auto;
 }
+.checkout-page {
+    margin-top: 45px;
+}
+
+.checkout-layout {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 30px;
+}
+
+.checkout-form,
+.checkout-summary {
+    background: linear-gradient(145deg, #171717, #090909);
+    border: 1px solid rgba(214,170,58,.25);
+    border-radius: 18px;
+    padding: 30px;
+}
+
+.checkout-form h2,
+.checkout-summary h2 {
+    color: var(--gold);
+    margin-bottom: 22px;
+}
+
+.checkout-form textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.checkout-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.checkout-item span {
+    color: #fff;
+}
+
+.checkout-item small {
+    color: var(--muted);
+}
+
+.checkout-item strong {
+    color: var(--gold2);
+}
+
+.checkout-total {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+    color: #fff;
+}
+
+.checkout-total strong {
+    color: var(--gold2);
+}

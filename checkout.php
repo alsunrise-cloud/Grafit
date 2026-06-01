@@ -2,129 +2,157 @@
 require_once "config/db.php";
 require_once "includes/auth.php";
 
-requireAuth();
-
-if (empty($_SESSION['cart'])) {
-    header("Location: cart.php");
-    exit;
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
 }
 
 $cartItems = [];
 $total = 0;
+$message = "";
 
-$ids = array_keys($_SESSION['cart']);
-$placeholders = implode(',', array_fill(0, count($ids), '?'));
+if (!empty($_SESSION['cart'])) {
+    $ids = array_keys($_SESSION['cart']);
+    $placeholders = implode(',', array_fill(0, count($ids), '?'));
 
-$stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
-$stmt->execute($ids);
+    $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
+    $stmt->execute($ids);
+    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($products as $product) {
+        $quantity = $_SESSION['cart'][$product['id']];
+        $sum = $product['price'] * $quantity;
 
-foreach ($products as $product) {
-    $quantity = $_SESSION['cart'][$product['id']];
-    $sum = $product['price'] * $quantity;
+        $cartItems[] = [
+            'product' => $product,
+            'quantity' => $quantity,
+            'sum' => $sum
+        ];
 
-    $cartItems[] = [
-        'product' => $product,
-        'quantity' => $quantity,
-        'sum' => $sum
-    ];
-
-    $total += $sum;
+        $total += $sum;
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $name = trim($_POST['name'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $comment = trim($_POST['comment'] ?? '');
 
-    $pdo->beginTransaction();
+    if ($name === "" || $phone === "" || $email === "" || $address === "") {
+        $message = "Заполните обязательные поля";
+    } elseif (empty($cartItems)) {
+        $message = "Корзина пуста";
+    } else {
+        $itemsText = "";
 
-    try {
+        foreach ($cartItems as $item) {
+            $itemsText .= $item['product']['title'] . " — " .
+                $item['quantity'] . " шт. — " .
+                $item['sum'] . " ₽\n";
+        }
+
+        $userId = $_SESSION['user']['id'] ?? null;
+
         $stmt = $pdo->prepare("
-            INSERT INTO orders (user_id, total, status)
-            VALUES (?, ?, ?)
-            RETURNING id
+            INSERT INTO orders 
+            (user_id, customer_name, customer_phone, customer_email, customer_address, customer_comment, items, total, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
         $stmt->execute([
-            $_SESSION['user']['id'],
+            $userId,
+            $name,
+            $phone,
+            $email,
+            $address,
+            $comment,
+            $itemsText,
             $total,
-            'new'
+            "Новый"
         ]);
 
-        $orderId = $stmt->fetchColumn();
+        $_SESSION['cart'] = [];
 
-        foreach ($cartItems as $item) {
-            $product = $item['product'];
-            $quantity = $item['quantity'];
-
-            $stmt = $pdo->prepare("
-                INSERT INTO order_items 
-                (order_id, product_id, quantity, price)
-                VALUES (?, ?, ?, ?)
-            ");
-
-            $stmt->execute([
-                $orderId,
-                $product['id'],
-                $quantity,
-                $product['price']
-            ]);
-
-            $stmt = $pdo->prepare("
-                UPDATE products
-                SET stock = stock - ?
-                WHERE id = ?
-            ");
-
-            $stmt->execute([
-                $quantity,
-                $product['id']
-            ]);
-        }
-
-        $pdo->commit();
-
-        unset($_SESSION['cart']);
-
-        header("Location: profile.php?order=success");
+        header("Location: checkout_success.php");
         exit;
-
-    } catch (Exception $e) {
-        $pdo->rollBack();
-        $error = "Ошибка при оформлении заказа";
     }
 }
 
 include "includes/header.php";
 ?>
 
-<section class="cart-page">
+<section class="checkout-page">
+
     <h1>Оформление заказа</h1>
 
-    <?php if (!empty($error)): ?>
-        <div class="message"><?= $error ?></div>
+    <?php if ($message): ?>
+        <p class="message"><?= htmlspecialchars($message) ?></p>
     <?php endif; ?>
 
-    <?php foreach ($cartItems as $item): ?>
-        <div class="cart-item">
-            <img src="assets/images/<?= htmlspecialchars($item['product']['image']) ?>" alt="Товар">
+    <?php if (empty($cartItems)): ?>
 
-            <div>
-                <h3><?= htmlspecialchars($item['product']['title']) ?></h3>
-                <p>Количество: <?= $item['quantity'] ?></p>
-                <p>Сумма: <?= $item['sum'] ?> ₽</p>
-            </div>
+        <div class="small-window">
+            <h2>Корзина пуста</h2>
+            <p>Добавьте товары перед оформлением заказа.</p>
+            <a href="catalog.php" class="btn">Перейти в каталог</a>
         </div>
-    <?php endforeach; ?>
 
-    <div class="cart-total">
-        <h3>Итого к оплате</h3>
-        <p><strong><?= $total ?> ₽</strong></p>
-        <br>
+    <?php else: ?>
 
-        <form method="POST">
-            <button type="submit">Подтвердить заказ</button>
-        </form>
-    </div>
+        <div class="checkout-layout">
+
+            <form method="POST" class="checkout-form">
+
+                <h2>Данные покупателя</h2>
+
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Ваше имя *" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Телефон *" required>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email *" required>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="address" placeholder="Адрес доставки *" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <textarea name="comment" placeholder="Комментарий к заказу"></textarea>
+                </div>
+
+                <button type="submit" class="btn">Подтвердить заказ</button>
+
+            </form>
+
+            <div class="checkout-summary">
+
+                <h2>Ваш заказ</h2>
+
+                <?php foreach ($cartItems as $item): ?>
+                    <div class="checkout-item">
+                        <span><?= htmlspecialchars($item['product']['title']) ?></span>
+                        <small><?= $item['quantity'] ?> шт.</small>
+                        <strong><?= $item['sum'] ?> ₽</strong>
+                    </div>
+                <?php endforeach; ?>
+
+                <div class="checkout-total">
+                    Итого:
+                    <strong><?= $total ?> ₽</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    <?php endif; ?>
+
 </section>
 
 <?php include "includes/footer.php"; ?>
