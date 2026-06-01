@@ -1413,6 +1413,7 @@ td img {
     color: #dcdcdc;
     text-decoration: none;
     transition: .3s ease;
+    flex-shrink: 0;
 }
 
 .header-icon-circle {
@@ -1668,20 +1669,18 @@ td img {
     }
 
     nav,
-    .header nav {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 14px;
-    }
+.header nav {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 
-    nav a {
-        font-size: 14px;
-    }
+    flex-wrap: nowrap;
 
-        .header-icon-link {
-        gap: 4px;
-    }
+    gap: 10px;
+
+    overflow-x: auto;
+    scrollbar-width: none;
+}
 
     .header-icon-circle,
     .search-toggle {
@@ -2237,4 +2236,13 @@ td img {
         min-width: 46px !important;
         min-height: 46px !important;
     }
+}
+@media (max-width: 900px) {
+
+    nav > a,
+    .header-icon-link,
+    .search-wrapper {
+        flex-shrink: 0;
+    }
+
 }
